@@ -29,10 +29,15 @@ class Place(Base):
     address: Mapped[str] = mapped_column(String, nullable=False)
     seats_pattern: Mapped[str] = mapped_column(String, nullable=False)
 
-    changed_at: Mapped[datetime] = mapped_column(DateTime, nullable=False)
-    created_at: Mapped[datetime] = mapped_column(DateTime, nullable=False)
+    changed_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        nullable=False,
+    )
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        nullable=False,
+    )
 
-    # обратная связь (необязательно, но удобно)
     events: Mapped[list["Event"]] = relationship(
         back_populates="place",
         cascade="all, delete-orphan",
@@ -51,15 +56,30 @@ class Event(Base):
 
     name: Mapped[str] = mapped_column(String, nullable=False)
 
-    event_time: Mapped[datetime] = mapped_column(DateTime, nullable=False)
-    registration_deadline: Mapped[datetime] = mapped_column(DateTime, nullable=False)
+    event_time: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        nullable=False,
+    )
+    registration_deadline: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        nullable=False,
+    )
 
     status: Mapped[str] = mapped_column(String, nullable=False)
     number_of_visitors: Mapped[int] = mapped_column(Integer, nullable=False)
 
-    changed_at: Mapped[datetime] = mapped_column(DateTime, nullable=False)
-    created_at: Mapped[datetime] = mapped_column(DateTime, nullable=False)
-    status_changed_at: Mapped[datetime] = mapped_column(DateTime, nullable=False)
+    changed_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        nullable=False,
+    )
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        nullable=False,
+    )
+    status_changed_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        nullable=False,
+    )
 
     place_id: Mapped[str] = mapped_column(
         String,
@@ -94,7 +114,7 @@ class Ticket(Base):
     seat: Mapped[str] = mapped_column(String, nullable=False)
 
     created_at: Mapped[datetime] = mapped_column(
-        DateTime,
+        DateTime(timezone=True),
         default=datetime.utcnow,
         nullable=False,
     )
@@ -105,10 +125,15 @@ class Ticket(Base):
 class SyncMetadata(Base):
     __tablename__ = "sync_metadata"
 
-    # всегда будет одна строка с id=1
     id: Mapped[int] = mapped_column(Integer, primary_key=True, default=1)
 
-    last_sync_time: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
-    last_changed_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+    last_sync_time: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True),
+        nullable=True,
+    )
+    last_changed_at: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True),
+        nullable=True,
+    )
 
     sync_status: Mapped[str | None] = mapped_column(String, nullable=True)

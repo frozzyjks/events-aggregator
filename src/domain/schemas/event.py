@@ -1,6 +1,52 @@
-from pydantic import BaseModel
+from __future__ import annotations
+
 from datetime import datetime
 from typing import Optional
+
+from pydantic import BaseModel, ConfigDict, EmailStr
+
+
+class PlaceListResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+    id: str
+    name: str
+    city: str
+    address: str
+
+
+class PlaceResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: str
+    name: str
+    city: str
+    address: str
+    seats_pattern: Optional[str] = None
+
+
+class EventListItem(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: str
+    name: str
+    place: PlaceResponse
+    event_time: datetime
+    registration_deadline: datetime
+    status: str
+    number_of_visitors: int
+
+
+class EventResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: str
+    name: str
+    place: PlaceResponse
+    event_time: datetime
+    registration_deadline: datetime
+    status: str
+    number_of_visitors: int
+
 
 
 class EventCreate(BaseModel):
@@ -12,24 +58,9 @@ class EventCreate(BaseModel):
     place_id: str
 
 
-class EventResponse(EventCreate):
-    id: str
-    changed_at: datetime
-    created_at: datetime
-    status_changed_at: datetime
-
-
-class EventRead(EventCreate):
-    id: str
-    name: str
-    event_time: datetime
-    registration_deadline: datetime
-    status: str
-    number_of_visitors: int
-    place_id: str
-    created_at: datetime
-    changed_at: datetime
-    status_changed_at: datetime
-
-    class Config:
-        orm_mode = True
+class TicketCreateRequest(BaseModel):
+    event_id: str
+    first_name: str
+    last_name: str
+    email: EmailStr
+    seat: str

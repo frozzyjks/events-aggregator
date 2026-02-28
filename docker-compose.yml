@@ -15,10 +15,8 @@ services:
     build: .
     depends_on:
       - db
-    environment:
-      DATABASE_URL: postgresql+asyncpg://postgres:postgres@db:5432/events
-      EVENTS_API_URL: http://events-provider.dev-2.python-labs.ru
-      EVENTS_API_KEY: AWae_s_--npvJzzP6Jk27hDRBUc8NzKsPcdlP6aQ8aw
+    env_file:
+      - .env
     ports:
       - "8000:8000"
 volumes:

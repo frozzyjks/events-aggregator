@@ -2,7 +2,8 @@ from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
-    database_url: str
+    database_url: str = ""
+    postgres_connection_string: str = ""
     events_api_url: str
     events_api_key: str
 

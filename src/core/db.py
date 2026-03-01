@@ -1,13 +1,9 @@
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
 from sqlalchemy.orm import declarative_base
-import os
+from src.core.config import settings
 
-DATABASE_URL = os.getenv(
-    "DATABASE_URL",
-    "postgresql+asyncpg://postgres:postgres@localhost:5432/events"
-)
 
-engine = create_async_engine(DATABASE_URL, echo=True)
+engine = create_async_engine(settings.db_url, echo=True)
 
 SessionLocal = async_sessionmaker(
     bind=engine,
